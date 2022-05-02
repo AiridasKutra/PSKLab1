@@ -6,7 +6,7 @@
 >
 <h:head/>
 <h:body>
-    <h2>Persons:</h2>
+    <h2>List of persons:</h2>
     <ol>
         <ui:repeat value="#{personsDisplay.allPersons}" var="person">
             <li><h:link value="#{person.fullName}" outcome="personDetails?personId=#{person.id}" /></li>
