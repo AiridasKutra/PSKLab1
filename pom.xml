@@ -58,7 +58,7 @@
                     <artifactId>mybatis-generator-maven-plugin</artifactId>
                     <version>1.4.0</version>
                     <configuration>
-                        <contexts>Players2DB</contexts>
+                        <contexts>LangSubDB</contexts>
                         <verbose>true</verbose>
                     </configuration>
                     <executions>
