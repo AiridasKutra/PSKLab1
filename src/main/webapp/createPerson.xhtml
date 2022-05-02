@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://java.sun.com/jsf/core"
+>
+<h:head/>
+<h:body>
+    <h2>Add person</h2>
+    <h:form>
+        <h:outputText value="Full name: "/>
+        <h:inputText value="#{createPerson.personToCreate.fullName}" required="true" />
+        <br/>
+        <h:outputText value="About me: "/>
+        <br/>
+        <h:inputTextarea value="#{createPerson.personToCreate.description}" />
+        <br/>
+        <h:commandButton value="Create" action="#{createPerson.createPerson()}" />
+    </h:form>
+    <h:link outcome="index" value="Back to home page"/>
+</h:body>
+</html>
