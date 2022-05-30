@@ -8,8 +8,20 @@
 >
 <h:head/>
 <h:body>
+    <h:panelGroup rendered="#{param['error'] == 'optimistic-lock-exception'}" style="color: red">
+        Person data modified by other user, try again
+    </h:panelGroup>
     <h2>#{personDisplay.person.fullName}</h2>
     <p>#{personDisplay.person.description}</p>
+    <h:form>
+        <h:outputText value="New description:" />
+        <br/>
+        <h:inputTextarea value="#{personDisplay.person.description}" />
+        <br/>
+        <h:commandButton value="Edit" action="#{personDisplay.editDescription()}">
+            <f:param name="personId" value="#{personDisplay.person.id}" />
+        </h:commandButton>
+    </h:form>
     <h3>Subscribed languages:</h3>
     <ul>
         <ui:repeat value="#{personDisplay.person.languages}" var="language">
@@ -19,11 +31,19 @@
     <h:form>
         <h:outputText value="Add new language: "/>
         <h:selectOneMenu value="#{personDisplay.languageToAdd}">
-            <f:selectItems value="#{languageList.allLanguages}" var="language" itemLabel="#{language.name}" itemValue="#{language.id}" />
+            <f:selectItems value="#{languageList.getUnusedLanguages(personDisplay.person)}" var="language" itemLabel="#{language.name}" itemValue="#{language.id}" />
         </h:selectOneMenu>
         <h:commandButton value="Add" action="#{personDisplay.addLanguage()}">
             <f:param name="personId" value="#{personDisplay.person.id}" />
         </h:commandButton>
+    </h:form>
+    <h:form>
+        <h:outputText value="Suggest unpopular language: " />
+        <h:commandButton value="Suggest" disabled="#{suggestLanguage.executing()}" action="#{suggestLanguage.suggest()}">
+            <f:param name="personId" value="#{personDisplay.person.id}" />
+        </h:commandButton>
+        <br/>
+        <h:outputText value="#{suggestLanguage.suggestedLanguage()}" />
     </h:form>
     <h3>Pictures:</h3>
     <h:form>

@@ -6,7 +6,16 @@
                       http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd"
         bean-discovery-mode="annotated">
 
-    <!--<interceptors>
+    <interceptors>
         <class>lt.vu.interceptors.MethodLogger</class>
-    </interceptors>-->
+    </interceptors>
+    <alternatives>
+        <class>lt.vu.persistence.LanguagesDAOImpl</class>
+    </alternatives>
+    <!--<alternatives>
+        <class>lt.vu.persistence.LanguagesDAOImplSlow</class>
+    </alternatives>-->
+    <decorators>
+        <class>lt.vu.persistence.LanguagesDAODecorator</class>
+    </decorators>
 </beans>

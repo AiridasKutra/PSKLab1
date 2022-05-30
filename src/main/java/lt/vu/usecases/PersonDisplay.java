@@ -13,17 +13,23 @@ import lt.vu.entities.Language;
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Model;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.persistence.OptimisticLockException;
 import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.Map;
 
-@Model
-public class PersonDisplay {
-
+@ViewScoped
+@Named
+public class PersonDisplay implements Serializable
+{
     @Getter
     private Person person;
+
+    @Getter @Setter
+    private String newDescription;
 
     @Getter @Setter
     private Integer languageToAdd;
@@ -51,14 +57,39 @@ public class PersonDisplay {
     }
 
     @Transactional
+    public String editDescription()
+    {
+        try
+        {
+            personsDAO.update(person);
+        }
+        catch (OptimisticLockException ex)
+        {
+            return "personDetails.xhtml?personId=" + person.getId() + "&error=optimistic-lock-exception&faces-redirect=true";
+        }
+        return "personDetails.xhtml?personId=" + person.getId() + "&faces-redirect=true";
+    }
+
+    @Transactional
     public String addLanguage()
     {
         Language language = languagesDAO.findOne(languageToAdd);
         if (language != null)
         {
-            person.getLanguages().add(language);
+            if (!person.getLanguages().contains(language))
+            {
+                person.getLanguages().add(language);
+            }
         }
-        personsDAO.update(person);
+
+        try
+        {
+            personsDAO.update(person);
+        }
+        catch (OptimisticLockException ex)
+        {
+            return "personDetails.xhtml?personId=" + person.getId() + "&error=optimistic-lock-exception&faces-redirect=true";
+        }
         return "personDetails.xhtml?personId=" + person.getId() + "&faces-redirect=true";
     }
 

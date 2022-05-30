@@ -40,6 +40,10 @@ public class Person implements Serializable
         inverseJoinColumns = @JoinColumn(name = "language_id"))
     private List<Language> languages = new ArrayList<>();
 
+    @Version
+    @Column(name = "OPT_LOCK_VERSION")
+    private Integer version;
+
     public Person() {}
 
     @Override
